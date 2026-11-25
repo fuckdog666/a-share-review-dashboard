@@ -1,4 +1,1418 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>A股复盘看板</title>
-<p>看板初始化成功</p>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>A股复盘看板｜2026-11-25</title>
+  <style>
+    :root{
+      --red:#e60012;--green:#009944;--blue:#2878ff;--ink:#19202a;
+      --muted:#68717f;--line:#e7eaf0;--bg:#f3f5f8;--card:#fff;
+      --navy:#111a2e;--navy2:#163967;--soft-red:#fff2f3;--soft-green:#eef9f2;
+    }
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+    .wrap{max-width:1120px;margin:auto;padding:18px}
+    .hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:18px;padding:26px 28px;box-shadow:0 14px 40px rgba(18,39,78,.18)}
+    .hero-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.eyebrow{font-size:12px;letter-spacing:.14em;opacity:.72}.hero h1{margin:5px 0 8px;font-size:26px}.sub{font-size:13px;opacity:.78}
+    .badge{white-space:nowrap;background:#ffb020;color:#2a1d00;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px}.notice{margin-top:17px;padding:10px 13px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.13);border-radius:10px;font-size:12px;line-height:1.65}
+    .section{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:19px 20px;box-shadow:0 3px 14px rgba(30,45,70,.04)}
+    .title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.title h2{font-size:17px;margin:0}.hint{font-size:11px;color:var(--muted)}
+    .index-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.index{background:#fff2f2;border:1px solid #f5e4e5;border-left:3px solid var(--red);border-radius:11px;padding:14px;text-align:center}.index-name{font-size:12px;color:#3f4752}.index-price{font-size:21px;font-weight:800;margin:7px 0 4px}.index-status{font-size:10px;color:#8a929d;margin-top:7px}.chg{font-size:13px;font-weight:800}.up{color:var(--red)}.down{color:var(--green)}.flat{color:var(--muted)}
+    .cn-index-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.cn-index-card{position:relative;overflow:hidden;background:#fff;border:1px solid #e2e6ec;border-radius:10px;padding:14px 12px 16px;text-align:center}.cn-index-card::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:99px;background:var(--muted)}.cn-index-card.up-card::after{background:var(--red)}.cn-index-card.down-card::after{background:var(--green)}.cn-index-name{font-size:12px;color:#4c5562}.cn-index-price{font-size:23px;font-weight:850;margin:8px 0 3px}.cn-index-change{font-size:13px;font-weight:750}.cn-index-status{font-size:9px;color:#959ca6;margin-top:5px}.panorama-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.panorama-stat{min-height:82px;border-radius:10px;padding:13px 8px;color:#fff;text-align:center;display:flex;flex-direction:column;justify-content:center}.panorama-stat b{font-size:23px;line-height:1.2}.panorama-stat span{font-size:11px;margin-top:5px}.panorama-stat.limit-up{background:#c91d24}.panorama-stat.rise{background:#ee0715}.panorama-stat.fall{background:#00a34a}.panorama-stat.limit-down{background:#176429}.panorama-stat.broken{background:#7c3aed}.panorama-stat.unavailable{filter:saturate(.7)}.panorama-panels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.panorama-panel{background:#f7f8fa;border-radius:10px;padding:12px 13px}.panorama-panel h3{font-size:15px;margin:0 0 8px}.panorama-row{display:flex;justify-content:space-between;gap:14px;font-size:12px;line-height:1.85}.panorama-row strong{text-align:right;font-size:12px}.panorama-row .emphasis{color:var(--red)}.panorama-note{margin-top:10px;font-size:10px;color:var(--muted);line-height:1.6}
+    .lb-feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.lb-feature{border:1px solid #e5e9ef;border-radius:11px;padding:13px 14px;background:#f8f9fb}.lb-feature h3{font-size:14px;margin:0 0 4px}.lb-feature-note{font-size:10px;color:var(--muted);margin-bottom:9px;line-height:1.55}.lb-pick{background:#fff;border:1px solid #eceff3;border-radius:8px;padding:9px 10px;margin-top:6px}.lb-pick-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.lb-pick-name{font-size:12px;font-weight:800}.lb-pick-change{font-size:12px;font-weight:800}.lb-pick-meta{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.5}.lb-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0 10px}.lb-summary-card{border-radius:10px;padding:12px;text-align:center;background:#fff4f4;border:1px solid #f3dddd}.lb-summary-card b{display:block;font-size:24px;color:var(--red)}.lb-summary-card span{font-size:11px;color:#4c5562}.lb-summary-card small{display:block;margin-top:4px;font-size:9px;color:var(--muted)}.lb-ladder-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:start}.lb-ladder-grid.single{grid-template-columns:1fr}.lb-ladder-column{display:flex;flex-direction:column;gap:9px;min-width:0}.lb-ladder{border:1px solid #e4e8ee;border-radius:10px;overflow:hidden;background:#fff}.lb-ladder summary{cursor:pointer;list-style:none;background:#f7f8fa;padding:10px 12px;font-size:12px;font-weight:800;display:flex;justify-content:space-between}.lb-ladder summary::-webkit-details-marker{display:none}.lb-stock-table,.lb-yesterday-table{width:100%;border-collapse:collapse;font-size:10px}.lb-stock-table th,.lb-stock-table td,.lb-yesterday-table th,.lb-yesterday-table td{padding:7px 6px;border-top:1px solid #edf0f3;text-align:left;vertical-align:top}.lb-stock-table th,.lb-yesterday-table th{color:#69717d;background:#fbfbfc;white-space:nowrap}.lb-stock-name{font-weight:750}.lb-code{font-size:8px;color:#9aa1aa}.lb-reason{max-width:190px;white-space:normal;line-height:1.45}.lb-empty{padding:15px;text-align:center;color:#a0a7b0;font-size:11px}.lb-yesterday{margin-top:15px}.lb-yesterday h3{font-size:14px;margin:0 0 8px}.lb-status{display:inline-block;padding:2px 7px;border-radius:99px;font-size:9px;font-weight:800}.lb-status.advance{background:#ffe7e9;color:#c51020}.lb-status.break{background:#fff2cf;color:#8a5b00}.lb-status.limitdown{background:#dff3e7;color:#08753a}
+    .controls{display:flex;gap:7px;flex-wrap:wrap}.controls button{border:1px solid var(--line);background:#fff;color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer}.controls button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .table-wrap{overflow:auto}.rank-table{width:100%;border-collapse:collapse;font-size:12px;min-width:900px}.rank-table th{background:#f6f7f9;color:#606978;font-weight:650;text-align:right;padding:10px 6px;white-space:nowrap;border-bottom:1px solid var(--line)}.rank-table th:first-child,.rank-table th:nth-child(2){text-align:left}.rank-table th:nth-child(4),.rank-table td:nth-child(4){padding-right:16px}.rank-table th:nth-child(5),.rank-table td:nth-child(5){padding-left:16px}.rank-table th:nth-child(5),.rank-table th:nth-child(6){text-align:center}.rank-table th:nth-child(6),.rank-table td:nth-child(6){padding-right:2px}.rank-table th:nth-child(7),.rank-table td:nth-child(7){padding-left:2px}.rank-table td{padding:10px 6px;border-bottom:1px solid #eff1f4;text-align:right;white-space:nowrap}.rank-table td:first-child,.rank-table td:nth-child(2){text-align:left}.rank-table td:nth-child(5),.rank-table td:nth-child(6){text-align:center}.rank-table tbody tr:hover{background:#fafbfc}.rank-no{width:24px;color:#8b94a1;font-weight:800}.rank-no.top{color:var(--red)}.sector-name{font-weight:750}.code{display:block;color:#99a0aa;font-size:9px;margin-top:1px}.leader{font-weight:650}.leader-change{font-size:10px;font-weight:750;margin-left:3px}.amount{font-variant-numeric:tabular-nums}.type-badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:750}.type-badge.industry{background:#eaf2ff;color:#1f65c8}.type-badge.concept{background:#f3ebff;color:#7840b8}
+    .flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.flow-card{background:#f8f9fb;border-radius:11px;padding:14px}.flow-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.flow-name{font-size:13px;font-weight:750}.flow-value{font-size:16px;font-weight:850}.bar-track{height:7px;background:#e5e8ed;border-radius:99px;margin-top:11px;overflow:hidden}.bar{height:100%;border-radius:99px}.bar.pos{background:var(--red)}.bar.neg{background:var(--green)}.flow-note{font-size:10px;color:var(--muted);margin-top:6px}
+    .method{font-size:11px;color:var(--muted);line-height:1.8;margin-top:13px;padding-top:12px;border-top:1px dashed var(--line)}
+    .strategy-summary{text-align:center;color:var(--red);font-size:20px;font-weight:850;margin:-2px 0 15px}.strategy-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.strategy-card{background:#f8f9fb;border-radius:11px;padding:15px 16px;border-left:4px solid var(--red)}.strategy-card.alt{border-left-color:var(--blue)}.strategy-card h3{margin:0 0 7px;font-size:15px}.strategy-card p{margin:0;color:#404957;font-size:12px;line-height:1.75}.strategy-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.strategy-tag{border:1px solid #dfe4eb;background:#fff;border-radius:99px;padding:3px 9px;font-size:10px}.signal-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:13px}.signal-table th,.signal-table td{padding:9px 10px;border-bottom:1px solid #e8ebef;text-align:center}.signal-table th{background:#f6f7f9}.signal-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:#ff9f1a}.signal-dot.good{background:var(--red)}.signal-bottom{display:grid;grid-template-columns:1fr 1.15fr;gap:10px;margin-top:13px}.signal-box{border:1px solid #e5e9ef;border-radius:11px;padding:14px}.signal-box h3{font-size:14px;margin:0 0 10px}.heat-row{display:grid;grid-template-columns:100px 1fr 48px;align-items:center;gap:8px;font-size:11px;margin:9px 0}.heat-track{height:7px;background:#e5e8ed;border-radius:99px;overflow:hidden}.heat-fill{height:100%;background:var(--red);border-radius:99px}.playbook{margin:0;padding-left:22px;font-size:11px;line-height:1.85}.discipline{margin-top:9px;border:1px solid #ffd37d;background:#fffaf0;border-radius:8px;padding:9px 11px;font-size:12px;font-weight:800}.strategy-disclaimer{font-size:10px;color:var(--muted);text-align:center;margin-top:12px}
+    .calendar-scroll{overflow-x:auto}.calendar-shell{min-width:850px}.weekday-row,.history-calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.weekday{font-size:11px;font-weight:750;text-align:center;color:#586171;padding:3px}.history-calendar{margin-top:4px}.cal-day{min-height:172px;border:1px solid #e8ebef;border-radius:9px;padding:10px 9px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}.cal-day::before{content:"";position:absolute;inset:0;opacity:0;pointer-events:none}.cal-day>*{position:relative}.cal-day.day-up{background:#fff0f1;border-color:#f4dadd}.cal-day.day-down{background:#edf8f2;border-color:#dcefe4}.cal-day.day-flat{background:#f7f8fa}.cal-day.heat-wide{background:#e1f3ea;border-color:#b8e0cb}.cal-day.heat-loss{background:#cdefdd;border-color:#8fcaa9}.cal-day.heat-ice{background:#a8dcc1;border-color:#63b18a}.cal-day.heat-extreme{background:#73bd93;border-color:#2f8a5a;color:#072817}.cal-day.heat-extreme::before{opacity:.22;background:linear-gradient(135deg,transparent 0 48%,rgba(0,0,0,.22) 49% 51%,transparent 52%)}.cal-day.off{background:#fafafa;color:#a8afb8;justify-content:flex-start;text-align:center}.cal-day.future{background:#fbfbfc;color:#bbc0c7;justify-content:flex-start;text-align:center}.cal-date{font-size:13px;font-weight:850;display:flex;align-items:center;justify-content:center;gap:5px}.cal-date .live{font-size:9px;background:#ffb020;color:#392700;padding:1px 5px;border-radius:99px}.cal-index{font-size:11px;color:#5f6875;text-align:center;margin-top:5px}.heat-extreme .cal-index{color:#16422b}.cal-change{text-align:center;font-size:13px;font-weight:850;margin-top:1px}.cal-turnover{text-align:center;font-size:12px;font-weight:750;color:#1b65c9;margin-top:2px}.cal-turnover-diff{text-align:center;font-size:10px;font-weight:750;margin-top:2px}.pain-pill{display:block;width:max-content;max-width:100%;margin:6px auto 0;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:850;background:rgba(255,255,255,.74);color:#536070}.pain-pill.mild{color:#66727f}.pain-pill.wide{color:#16814b}.pain-pill.loss{color:#08713c}.pain-pill.ice{background:#0e7b49;color:#fff}.pain-pill.extreme{background:#075332;color:#fff}.pain-stats{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-top:5px;font-size:9px;font-weight:800;color:#16633c}.pain-stats .missing{color:#8b949e;font-weight:700}.pain-bar{display:flex;height:5px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.65);margin-top:5px}.pain-bar span{display:block}.pain-bar .limitdown{background:#075332}.pain-bar .normalfall{background:#9fd9b8}.cal-counts{display:flex;justify-content:space-between;font-size:9px;color:#6f7783;margin-top:8px}.breadth-bar{display:flex;height:7px;border-radius:99px;overflow:hidden;background:#e4e7eb;margin-top:3px}.breadth-bar .rise{background:var(--red)}.breadth-bar .fall{background:var(--green)}.off-text{font-size:12px;font-weight:700;color:#c4c8ce;margin-top:10px}
+    .cal-day.heat-weak{background:#fff8f1;border-color:#f3d9bf}.cal-day.heat-repair{background:#fff0f1;border-color:#f1c8cc}.cal-day.heat-broad{background:#ffe2e5;border-color:#eda6ae}.cal-day.heat-strong{background:#ffcdd3;border-color:#e87b87}.cal-day.heat-squeeze{background:#ffadb8;border-color:#d94b5c;color:#4f060d}.cal-day.heat-climax{background:#ff8e9d;border-color:#bd2333;color:#49040a}.cal-day.heat-squeeze::before,.cal-day.heat-climax::before{opacity:.16;background:radial-gradient(circle at 18% 20%,rgba(255,255,255,.85),transparent 24%),linear-gradient(135deg,transparent 0 48%,rgba(160,0,18,.22) 49% 51%,transparent 52%)}.heat-squeeze .cal-index,.heat-climax .cal-index{color:#64131b}.heat-weak .pain-stats,.heat-repair .pain-stats,.heat-broad .pain-stats,.heat-strong .pain-stats,.heat-squeeze .pain-stats,.heat-climax .pain-stats{color:#8e2732}.pain-pill.weak{color:#a35b15}.pain-pill.repair{color:#c51020}.pain-pill.broad{background:#fff;color:#d31525}.pain-pill.strong{background:#e60012;color:#fff}.pain-pill.squeeze{background:#a40010;color:#fff}.pain-pill.climax{background:#5a0008;color:#fff}
+    footer{text-align:center;padding:24px 4px 6px;color:#9aa1ab;font-size:10px;line-height:1.8}
+    @media(max-width:820px){.index-grid{grid-template-columns:repeat(2,1fr)}.cn-index-grid{grid-template-columns:repeat(2,1fr)}.panorama-stats{grid-template-columns:repeat(3,1fr)}.lb-feature-grid{grid-template-columns:1fr}.lb-ladder-grid{grid-template-columns:1fr}.flow-grid{grid-template-columns:repeat(2,1fr)}.strategy-grid,.signal-bottom{grid-template-columns:1fr}}
+    @media(max-width:520px){.wrap{padding:10px}.hero{padding:21px 18px}.hero-top{display:block}.badge{display:inline-block;margin-top:10px}.cn-index-grid{grid-template-columns:1fr 1fr}.panorama-stats{grid-template-columns:repeat(2,1fr)}.panorama-panels{grid-template-columns:1fr}.lb-summary{grid-template-columns:repeat(2,1fr)}.flow-grid{grid-template-columns:1fr}.section{padding:16px 14px}.title{align-items:flex-start;flex-direction:column}.index-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class="hero-top"><div><div class="eyebrow">A-SHARE MARKET REVIEW</div><h1>A股当日复盘看板</h1><div class="sub">2026年11月25日 · 数据采集于 19:25:20</div></div><span class="badge">收盘数据</span></div>
+    <div class="notice">今日行情已收盘。成交额、涨跌家数、指数结构及榜单均按收盘数据展示。</div>
+  </header>
+
+  <section class="section">
+    <div class="title"><h2>🌍 外盘速览</h2><span class="hint">东方财富公开行情 · 红涨绿跌</span></div>
+    <div class="index-grid" id="indexGrid"></div>
+  </section>
+
+  <section class="section">
+    <div class="title"><h2>📊 大盘全景</h2><span class="hint">财联社全市场统计口径 · 收盘数据</span></div>
+    <div class="cn-index-grid">
+      <div class="cn-index-card down-card"><div class="cn-index-name">上证指数</div><div class="cn-index-price down">3476.47</div><div class="cn-index-change down">-2.03%</div><div class="cn-index-status">收盘</div></div>
+      <div class="cn-index-card down-card"><div class="cn-index-name">深证成指</div><div class="cn-index-price down">10086.36</div><div class="cn-index-change down">-3.24%</div><div class="cn-index-status">收盘</div></div>
+      <div class="cn-index-card down-card"><div class="cn-index-name">创业板指</div><div class="cn-index-price down">2183.58</div><div class="cn-index-change down">-4.19%</div><div class="cn-index-status">收盘</div></div>
+      <div class="cn-index-card down-card"><div class="cn-index-name">科创50</div><div class="cn-index-price down">1186.14</div><div class="cn-index-change down">-5.12%</div><div class="cn-index-status">收盘</div></div>
+    </div>
+    <div class="panorama-stats">
+      <div class="panorama-stat limit-up"><b>57</b><span>涨停家数</span></div>
+      <div class="panorama-stat rise"><b>567</b><span>上涨家数</span></div>
+      <div class="panorama-stat fall"><b>4,588</b><span>下跌家数</span></div>
+      <div class="panorama-stat limit-down"><b>44</b><span>跌停家数</span></div>
+      <div class="panorama-stat broken" title="炸板30家，涨停51家"><b>37.0%</b><span>炸板率</span></div>
+    </div>
+    <div class="panorama-panels">
+      <article class="panorama-panel">
+        <h3>📊 量价对比</h3>
+        <div class="panorama-row"><span>今日沪深市场成交额</span><strong>1.38万亿</strong></div>
+        <div class="panorama-row"><span>上一交易日</span><strong>1.66万亿</strong></div>
+        <div class="panorama-row"><span>量比判断</span><strong class="down">缩量（-0.27万亿）</strong></div>
+        <div class="panorama-row"><span>涨跌结构</span><strong>上涨567 / 下跌4588</strong></div>
+      </article>
+      <article class="panorama-panel">
+        <h3>📈 今日结构</h3>
+        <div class="panorama-row"><span>开盘价</span><strong>3522.59</strong></div>
+        <div class="panorama-row"><span>最高价</span><strong>3526.34</strong></div>
+        <div class="panorama-row"><span>最低价</span><strong>3468.65</strong></div>
+        <div class="panorama-row"><span>当前点位</span><strong>3476.47</strong></div>
+      </article>
+    </div>
+    <div class="panorama-note">炸板率按东方财富口径：炸板30 家 ÷（封板51 家 + 炸板30 家）计算；涨停家数卡采用财联社全市场口径。</div>
+  </section>
+
+  <section class="section" id="limitBoardSection">
+    <div class="title"><h2>🔥 连板数据</h2><span class="hint">涨停梯队、强势标的与昨日高位票跟踪</span></div>
+    <div class="lb-feature-grid" id="limitFeatureGrid"></div>
+    <div class="lb-summary" id="ladderSummary"></div>
+    <div class="lb-ladder-grid" id="ladderGroups"></div>
+    <div class="lb-yesterday"><h3>昨日高位票今日状态</h3><div class="table-wrap"><table class="lb-yesterday-table"><thead><tr><th>股票</th><th>昨日高度</th><th>今日涨跌</th><th>当前状态</th><th>所属题材</th></tr></thead><tbody id="yesterdayHighBody"></tbody></table></div></div>
+    <div class="method">筛选已排除 ST、退市整理及新股无涨跌幅阶段。率先涨停按首次封板时间排序；逆势抗跌按相对涨幅、收盘位置、资金强度与振幅综合评分；断板修复指前期至少二连板、昨日断板且今日重新走强。</div>
+  </section>
+
+  <section class="section">
+    <div class="title"><h2>板块行业涨幅 Top 15</h2><div class="controls"><button class="active" data-sort="change">按涨跌幅</button><button data-sort="turnover">按成交额</button><button data-sort="flow">按资金净流入</button></div></div>
+    <div class="table-wrap"><table class="rank-table"><thead><tr><th>#</th><th>板块名称</th><th>类型</th><th>涨跌幅</th><th>成交额（亿元）</th><th>主力净流入（亿元）</th><th>领涨股1</th><th>领涨股2</th></tr></thead><tbody id="industryBody"></tbody></table></div>
+    <div class="method">说明：榜单将标准行业板块与题材概念板块合并，并优先保留行业。若某概念至少50%的成分股已包含在同一行业板块中，则视为重复并剔除；其余候选按当日涨幅统一排序取前15。板块成交额为全部成分股成交额汇总。</div>
+  </section>
+
+  <section class="section">
+    <div class="title"><h2>六大板块资金分布</h2><span class="hint">按一级行业归并 · 单位：亿元</span></div>
+    <div class="flow-grid" id="flowGrid"></div>
+    <div class="method">归类口径：科技（电子、通信、计算机、电新、军工）；消费（食品饮料、家电、农林牧渔、汽车、美容护理、零售、传媒、社会服务、轻工、纺服）；周期（煤炭、钢铁、有色、化工、石油石化、建筑、建材、机械、交运）；金融（银行、非银、房地产）；医药；公用事业（公用事业、环保）。</div>
+  </section>
+
+  <section class="section" id="strategySection">
+    <div class="title"><h2>🧭 短线主线与情绪判断</h2><span class="hint">规则化情景推演 · 随每日行情更新</span></div>
+    <div class="strategy-summary" id="strategySummary"></div>
+    <div class="strategy-grid" id="strategyCards"></div>
+    <table class="signal-table"><thead><tr><th>指标</th><th>今日值</th><th>信号</th><th>操作含义</th></tr></thead><tbody id="signalBody"></tbody></table>
+    <div class="signal-bottom"><div class="signal-box"><h3>热门概念观察</h3><div id="heatRows"></div><div class="hint">热度仅用于筛选，不等于买点</div></div><div class="signal-box"><h3>次日条件策略</h3><ol class="playbook" id="playbook"></ol><div class="discipline" id="discipline"></div></div></div>
+    <div class="strategy-disclaimer">依据当日公开行情生成，仅供研究与复盘，不构成投资建议。</div>
+  </section>
+
+  <section class="section">
+    <div class="title"><h2>历史成交额</h2><span class="hint">最近5个日历周 · 指数为上证指数 · 最近交易日为收盘数据</span></div>
+    <div class="calendar-scroll"><div class="calendar-shell">
+      <div class="weekday-row"><div class="weekday">周日</div><div class="weekday">周一</div><div class="weekday">周二</div><div class="weekday">周三</div><div class="weekday">周四</div><div class="weekday">周五</div><div class="weekday">周六</div></div>
+      <div class="history-calendar" id="historyCalendar"></div>
+    </div></div>
+    <div class="method">每格依次显示日期、上证指数点位与涨跌幅、沪深两市成交额。底部第一条红绿条表示上涨/下跌家数；新增“市场体感”标签、跌停家数与跌停压力条。上涨日按弱修复、修复、普涨、强修复、逼空、高潮分层；下跌杀伤力越强，卡片绿色越深。旧历史若未留存跌停数据则显示“--”。</div>
+  </section>
+
+  <footer>数据来源：财联社、东方财富、开盘红公开行情接口 · 数据可能存在延迟，仅供研究与复盘，不构成投资建议。</footer>
+</main>
+<script>
+const dashboardTradeDate='20261125';
+const indices=[
+    {
+        "name":  "道指",
+        "price":  50018.7,
+        "change":  0.85,
+        "status":  "隔夜收盘"
+    },
+    {
+        "name":  "标普500",
+        "price":  7201.09,
+        "change":  -0.5,
+        "status":  "隔夜收盘"
+    },
+    {
+        "name":  "纳指",
+        "price":  23733.54,
+        "change":  -1.48,
+        "status":  "隔夜收盘"
+    },
+    {
+        "name":  "日经225",
+        "price":  57011.62,
+        "change":  -2.78,
+        "status":  "实时收盘"
+    },
+    {
+        "name":  "KOSPI",
+        "price":  4697.51,
+        "change":  -6.16,
+        "status":  "实时收盘"
+    }
+];
+const industries=[
+    {
+        "name":  "医药商业",
+        "type":  "行业",
+        "code":  "ths881143",
+        "change":  0.87,
+        "turnover":  54.92,
+        "flow":  0.63,
+        "leader":  "ST海王",
+        "leaderCode":  "sz000078",
+        "leaderChange":  10.28,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "旅游及酒店",
+        "type":  "行业",
+        "code":  "ths881160",
+        "change":  0.58,
+        "turnover":  34.01,
+        "flow":  0.12,
+        "leader":  "祥源文旅",
+        "leaderCode":  "sh600576",
+        "leaderChange":  4.18,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "中药",
+        "type":  "行业",
+        "code":  "ths881141",
+        "change":  0.44,
+        "turnover":  101.42,
+        "flow":  2.39,
+        "leader":  "桂林三金",
+        "leaderCode":  "sz002275",
+        "leaderChange":  10.03,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "零售",
+        "type":  "行业",
+        "code":  "ths881158",
+        "change":  0.32,
+        "turnover":  122.58,
+        "flow":  -0.81,
+        "leader":  "中央商场",
+        "leaderCode":  "sh600280",
+        "leaderChange":  10.16,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "银行",
+        "type":  "行业",
+        "code":  "ths881155",
+        "change":  -0.02,
+        "turnover":  428.38,
+        "flow":  38.62,
+        "leader":  "交通银行",
+        "leaderCode":  "sh601328",
+        "leaderChange":  1.78,
+        "leader2":  "兴业银行",
+        "leader2Code":  "sh601166",
+        "leader2Change":  1.39
+    },
+    {
+        "name":  "化学制药",
+        "type":  "行业",
+        "code":  "ths881140",
+        "change":  -0.13,
+        "turnover":  282.83,
+        "flow":  -3.73,
+        "leader":  "康芝药业",
+        "leaderCode":  "sz300086",
+        "leaderChange":  20.05,
+        "leader2":  "拓新药业",
+        "leader2Code":  "sz301089",
+        "leader2Change":  20.02
+    },
+    {
+        "name":  "白酒",
+        "type":  "行业",
+        "code":  "ths881273",
+        "change":  -0.54,
+        "turnover":  132.67,
+        "flow":  12.93,
+        "leader":  "山西汾酒",
+        "leaderCode":  "sh600809",
+        "leaderChange":  3.74,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "教育",
+        "type":  "行业",
+        "code":  "ths881178",
+        "change":  -0.77,
+        "turnover":  23.63,
+        "flow":  -0.64,
+        "leader":  "*ST开元",
+        "leaderCode":  "sz300338",
+        "leaderChange":  10.2,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "煤炭开采加工",
+        "type":  "行业",
+        "code":  "ths881105",
+        "change":  -0.79,
+        "turnover":  90.38,
+        "flow":  3.7,
+        "leader":  "淮北矿业",
+        "leaderCode":  "sh600985",
+        "leaderChange":  2.16,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "饮料制造",
+        "type":  "行业",
+        "code":  "ths881133",
+        "change":  -0.81,
+        "turnover":  84.97,
+        "flow":  3.74,
+        "leader":  "欢乐家",
+        "leaderCode":  "sz300997",
+        "leaderChange":  5.98,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "食品加工制造",
+        "type":  "行业",
+        "code":  "ths881134",
+        "change":  -0.85,
+        "turnover":  91.18,
+        "flow":  -3.89,
+        "leader":  "桂发祥",
+        "leaderCode":  "sz002820",
+        "leaderChange":  10.06,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "保险",
+        "type":  "行业",
+        "code":  "ths881156",
+        "change":  -0.94,
+        "turnover":  64.69,
+        "flow":  4.46,
+        "leader":  "中国人保",
+        "leaderCode":  "sh601319",
+        "leaderChange":  -0.41,
+        "leader2":  "--",
+        "leader2Code":  "--",
+        "leader2Change":  0
+    },
+    {
+        "name":  "玻尿酸",
+        "type":  "概念",
+        "code":  "cls80415",
+        "change":  1.7,
+        "turnover":  11.92,
+        "flow":  1.29,
+        "heat":  95.88,
+        "leader":  "双鹭药业",
+        "leaderCode":  "sz002038",
+        "leaderChange":  10.11,
+        "leader2":  "石药景峰",
+        "leader2Code":  "sz000908",
+        "leader2Change":  10.07
+    },
+    {
+        "name":  "食品饮料",
+        "type":  "概念",
+        "code":  "cls80032",
+        "change":  -1.2,
+        "turnover":  478.29,
+        "flow":  5.87,
+        "heat":  94.75,
+        "leader":  "好当家",
+        "leaderCode":  "sh600467",
+        "leaderChange":  10.09,
+        "leader2":  "石药景峰",
+        "leader2Code":  "sz000908",
+        "leader2Change":  10.07
+    },
+    {
+        "name":  "日化用品",
+        "type":  "概念",
+        "code":  "cls80406",
+        "change":  -1.02,
+        "turnover":  55.28,
+        "flow":  2.49,
+        "heat":  94.36,
+        "leader":  "康芝药业",
+        "leaderCode":  "sz300086",
+        "leaderChange":  20.05,
+        "leader2":  "福瑞达",
+        "leader2Code":  "sh600223",
+        "leader2Change":  10.02
+    }
+];
+const flows=[
+    {
+        "name":  "科技板块",
+        "flow":  -309.8
+    },
+    {
+        "name":  "消费板块",
+        "flow":  -11.81
+    },
+    {
+        "name":  "周期板块",
+        "flow":  -110.75
+    },
+    {
+        "name":  "金融板块",
+        "flow":  -30.38
+    },
+    {
+        "name":  "医药板块",
+        "flow":  -0.02
+    },
+    {
+        "name":  "公用事业",
+        "flow":  -0.04
+    }
+];
+const limitBoardData={
+    "features":  [
+                     {
+                         "title":  "率先涨停",
+                         "note":  "当前仍封板，按首次封板时间排序",
+                         "stocks":  [
+                                        {
+                                            "name":  "金新农",
+                                            "code":  "002548",
+                                            "change":  10.11,
+                                            "meta":  "首封 09:25:00 · 封单 1.02亿",
+                                            "theme":  "猪肉、农业"
+                                        },
+                                        {
+                                            "name":  "天圣制药",
+                                            "code":  "002872",
+                                            "change":  10.08,
+                                            "meta":  "首封 09:25:00 · 封单 0.90亿",
+                                            "theme":  "医药、ST摘帽"
+                                        }
+                                    ]
+                     },
+                     {
+                         "title":  "逆势抗跌",
+                         "note":  "剔除涨停股，按相对强度、收盘位置、资金与振幅评分",
+                         "stocks":  [
+                                        {
+                                            "name":  "江天化学",
+                                            "code":  "300927",
+                                            "change":  19.13,
+                                            "meta":  "抗跌分 14.56 · 主力 +9.5%",
+                                            "theme":  "相对强势"
+                                        },
+                                        {
+                                            "name":  "北鼎股份",
+                                            "code":  "300824",
+                                            "change":  13.45,
+                                            "meta":  "抗跌分 11.55 · 主力 +7.3%",
+                                            "theme":  "相对强势"
+                                        }
+                                    ]
+                     },
+                     {
+                         "title":  "断板修复",
+                         "note":  "前期至少二连板，昨日断板，今日重新走强",
+                         "stocks":  [
+                                        {
+                                            "name":  "好当家",
+                                            "code":  "600467",
+                                            "change":  10.09,
+                                            "meta":  "前期 2连板 · 昨日断板 · 今日修复",
+                                            "theme":  "渔业"
+                                        },
+                                        {
+                                            "name":  "好当家",
+                                            "code":  "600467",
+                                            "change":  10.09,
+                                            "meta":  "前期 2连板 · 昨日断板 · 今日修复",
+                                            "theme":  "渔业"
+                                        }
+                                    ]
+                     }
+                 ],
+    "summary":  [
+                    {
+                        "name":  "一板",
+                        "count":  37,
+                        "rateLabel":  "一进二",
+                        "rate":  "20%"
+                    },
+                    {
+                        "name":  "二板",
+                        "count":  5,
+                        "rateLabel":  "二进三",
+                        "rate":  "24%"
+                    },
+                    {
+                        "name":  "三板",
+                        "count":  6,
+                        "rateLabel":  "三进更高",
+                        "rate":  "60%"
+                    },
+                    {
+                        "name":  "高度板",
+                        "count":  3,
+                        "rateLabel":  "高度观察",
+                        "rate":  "--"
+                    }
+                ],
+    "ladders":  [
+                    {
+                        "name":  "一板",
+                        "stocks":  [
+                                       {
+                                           "name":  "钛能化学",
+                                           "code":  "002145",
+                                           "boards":  1,
+                                           "firstTime":  "09:30:03",
+                                           "lastTime":  "09:30:03",
+                                           "theme":  "钛白粉、钒电池",
+                                           "reason":  "钛白粉",
+                                           "sealAmount":  38403420
+                                       },
+                                       {
+                                           "name":  "德龙汇能",
+                                           "code":  "000593",
+                                           "boards":  1,
+                                           "firstTime":  "09:30:18",
+                                           "lastTime":  "09:30:18",
+                                           "theme":  "天然气、并购重组",
+                                           "reason":  "天然气",
+                                           "sealAmount":  148862314
+                                       },
+                                       {
+                                           "name":  "正虹科技",
+                                           "code":  "000702",
+                                           "boards":  1,
+                                           "firstTime":  "09:30:21",
+                                           "lastTime":  "09:30:21",
+                                           "theme":  "猪肉、农业",
+                                           "reason":  "猪肉",
+                                           "sealAmount":  18488909
+                                       },
+                                       {
+                                           "name":  "好当家",
+                                           "code":  "600467",
+                                           "boards":  1,
+                                           "firstTime":  "09:31:33",
+                                           "lastTime":  "09:43:18",
+                                           "theme":  "水产品、农业",
+                                           "reason":  "水产品",
+                                           "sealAmount":  100549663
+                                       },
+                                       {
+                                           "name":  "特一药业",
+                                           "code":  "002728",
+                                           "boards":  1,
+                                           "firstTime":  "09:31:33",
+                                           "lastTime":  "09:31:33",
+                                           "theme":  "流感、止咳药",
+                                           "reason":  "流感",
+                                           "sealAmount":  73859991
+                                       },
+                                       {
+                                           "name":  "丽人丽妆",
+                                           "code":  "605136",
+                                           "boards":  1,
+                                           "firstTime":  "09:32:20",
+                                           "lastTime":  "09:32:20",
+                                           "theme":  "麦角硫因、保健品",
+                                           "reason":  "麦角硫因",
+                                           "sealAmount":  54102200
+                                       },
+                                       {
+                                           "name":  "石药景峰",
+                                           "code":  "000908",
+                                           "boards":  1,
+                                           "firstTime":  "09:32:51",
+                                           "lastTime":  "09:32:51",
+                                           "theme":  "流感、医美",
+                                           "reason":  "流感",
+                                           "sealAmount":  18928312
+                                       },
+                                       {
+                                           "name":  "赤天化",
+                                           "code":  "600227",
+                                           "boards":  1,
+                                           "firstTime":  "09:33:24",
+                                           "lastTime":  "15:00:00",
+                                           "theme":  "尿素、农业",
+                                           "reason":  "尿素",
+                                           "sealAmount":  18810066
+                                       },
+                                       {
+                                           "name":  "亨迪药业",
+                                           "code":  "301211",
+                                           "boards":  1,
+                                           "firstTime":  "09:33:24",
+                                           "lastTime":  "09:33:24",
+                                           "theme":  "流感、医药",
+                                           "reason":  "流感",
+                                           "sealAmount":  45928773
+                                       },
+                                       {
+                                           "name":  "福瑞达",
+                                           "code":  "600223",
+                                           "boards":  1,
+                                           "firstTime":  "09:34:08",
+                                           "lastTime":  "09:34:08",
+                                           "theme":  "麦角硫因、保健品",
+                                           "reason":  "麦角硫因",
+                                           "sealAmount":  16309648
+                                       },
+                                       {
+                                           "name":  "海汽集团",
+                                           "code":  "603069",
+                                           "boards":  1,
+                                           "firstTime":  "09:35:24",
+                                           "lastTime":  "09:35:24",
+                                           "theme":  "并购重组、客运",
+                                           "reason":  "并购重组",
+                                           "sealAmount":  51215703
+                                       },
+                                       {
+                                           "name":  "瀛通通讯",
+                                           "code":  "002861",
+                                           "boards":  1,
+                                           "firstTime":  "09:36:03",
+                                           "lastTime":  "09:36:03",
+                                           "theme":  "AI眼镜、端侧AI",
+                                           "reason":  "AI眼镜",
+                                           "sealAmount":  14940153
+                                       },
+                                       {
+                                           "name":  "新筑股份",
+                                           "code":  "002480",
+                                           "boards":  1,
+                                           "firstTime":  "09:37:12",
+                                           "lastTime":  "09:37:12",
+                                           "theme":  "并购重组、氢能源",
+                                           "reason":  "并购重组",
+                                           "sealAmount":  13288033
+                                       },
+                                       {
+                                           "name":  "哈三联",
+                                           "code":  "002900",
+                                           "boards":  1,
+                                           "firstTime":  "09:38:33",
+                                           "lastTime":  "09:38:33",
+                                           "theme":  "流感、医美",
+                                           "reason":  "流感",
+                                           "sealAmount":  24443936
+                                       },
+                                       {
+                                           "name":  "盘龙药业",
+                                           "code":  "002864",
+                                           "boards":  1,
+                                           "firstTime":  "09:38:57",
+                                           "lastTime":  "09:38:57",
+                                           "theme":  "流感、新冠药概念",
+                                           "reason":  "流感",
+                                           "sealAmount":  18224767
+                                       },
+                                       {
+                                           "name":  "拓新药业",
+                                           "code":  "301089",
+                                           "boards":  1,
+                                           "firstTime":  "09:39:06",
+                                           "lastTime":  "09:39:06",
+                                           "theme":  "流感、保健品",
+                                           "reason":  "流感",
+                                           "sealAmount":  31400422
+                                       },
+                                       {
+                                           "name":  "双鹭药业",
+                                           "code":  "002038",
+                                           "boards":  1,
+                                           "firstTime":  "09:40:15",
+                                           "lastTime":  "14:20:15",
+                                           "theme":  "流感、减肥药",
+                                           "reason":  "流感",
+                                           "sealAmount":  5090120
+                                       },
+                                       {
+                                           "name":  "中央商场",
+                                           "code":  "600280",
+                                           "boards":  1,
+                                           "firstTime":  "09:40:38",
+                                           "lastTime":  "09:44:23",
+                                           "theme":  "零售、并购重组",
+                                           "reason":  "零售",
+                                           "sealAmount":  51417342
+                                       },
+                                       {
+                                           "name":  "桂林三金",
+                                           "code":  "002275",
+                                           "boards":  1,
+                                           "firstTime":  "09:40:51",
+                                           "lastTime":  "14:08:51",
+                                           "theme":  "流感、创新药",
+                                           "reason":  "流感",
+                                           "sealAmount":  25953960
+                                       },
+                                       {
+                                           "name":  "青山纸业",
+                                           "code":  "600103",
+                                           "boards":  1,
+                                           "firstTime":  "09:55:20",
+                                           "lastTime":  "13:57:08",
+                                           "theme":  "光模块、光通信",
+                                           "reason":  "光模块",
+                                           "sealAmount":  73235232
+                                       },
+                                       {
+                                           "name":  "证通电子",
+                                           "code":  "002197",
+                                           "boards":  1,
+                                           "firstTime":  "09:58:00",
+                                           "lastTime":  "09:58:00",
+                                           "theme":  "算力、数字货币",
+                                           "reason":  "算力",
+                                           "sealAmount":  68735301
+                                       },
+                                       {
+                                           "name":  "盛剑科技",
+                                           "code":  "603324",
+                                           "boards":  1,
+                                           "firstTime":  "09:59:06",
+                                           "lastTime":  "14:10:51",
+                                           "theme":  "光刻胶、芯片",
+                                           "reason":  "光刻胶",
+                                           "sealAmount":  18625534
+                                       },
+                                       {
+                                           "name":  "康芝药业",
+                                           "code":  "300086",
+                                           "boards":  1,
+                                           "firstTime":  "09:59:36",
+                                           "lastTime":  "14:29:21",
+                                           "theme":  "流感、医药",
+                                           "reason":  "流感",
+                                           "sealAmount":  3933835
+                                       },
+                                       {
+                                           "name":  "城地香江",
+                                           "code":  "603887",
+                                           "boards":  1,
+                                           "firstTime":  "10:03:47",
+                                           "lastTime":  "13:15:47",
+                                           "theme":  "算力租赁、算力",
+                                           "reason":  "算力租赁",
+                                           "sealAmount":  70259505
+                                       },
+                                       {
+                                           "name":  "家家悦",
+                                           "code":  "603708",
+                                           "boards":  1,
+                                           "firstTime":  "10:04:50",
+                                           "lastTime":  "10:04:50",
+                                           "theme":  "零售、冷链物流",
+                                           "reason":  "零售",
+                                           "sealAmount":  38628717
+                                       },
+                                       {
+                                           "name":  "国芳集团",
+                                           "code":  "601086",
+                                           "boards":  1,
+                                           "firstTime":  "10:06:01",
+                                           "lastTime":  "10:06:01",
+                                           "theme":  "零售、文创产品",
+                                           "reason":  "零售",
+                                           "sealAmount":  76065925
+                                       },
+                                       {
+                                           "name":  "万事利",
+                                           "code":  "301066",
+                                           "boards":  1,
+                                           "firstTime":  "10:07:09",
+                                           "lastTime":  "14:44:09",
+                                           "theme":  "文创产品、AI应用",
+                                           "reason":  "文创产品",
+                                           "sealAmount":  14329862
+                                       },
+                                       {
+                                           "name":  "荣联科技",
+                                           "code":  "002642",
+                                           "boards":  1,
+                                           "firstTime":  "10:08:12",
+                                           "lastTime":  "14:56:54",
+                                           "theme":  "算力、医药",
+                                           "reason":  "算力",
+                                           "sealAmount":  1807918
+                                       },
+                                       {
+                                           "name":  "人民同泰",
+                                           "code":  "600829",
+                                           "boards":  1,
+                                           "firstTime":  "10:10:08",
+                                           "lastTime":  "14:55:53",
+                                           "theme":  "流感、民营医院",
+                                           "reason":  "流感",
+                                           "sealAmount":  4572550
+                                       },
+                                       {
+                                           "name":  "獐子岛",
+                                           "code":  "002069",
+                                           "boards":  1,
+                                           "firstTime":  "10:14:48",
+                                           "lastTime":  "10:14:48",
+                                           "theme":  "水产品、农业",
+                                           "reason":  "水产品",
+                                           "sealAmount":  7973195
+                                       },
+                                       {
+                                           "name":  "新华制药",
+                                           "code":  "000756",
+                                           "boards":  1,
+                                           "firstTime":  "10:20:54",
+                                           "lastTime":  "14:29:45",
+                                           "theme":  "流感、医药",
+                                           "reason":  "流感",
+                                           "sealAmount":  35156992
+                                       },
+                                       {
+                                           "name":  "合富中国",
+                                           "code":  "603122",
+                                           "boards":  1,
+                                           "firstTime":  "10:36:54",
+                                           "lastTime":  "14:54:06",
+                                           "theme":  "医药零售、AI应用",
+                                           "reason":  "医药零售",
+                                           "sealAmount":  4105621
+                                       },
+                                       {
+                                           "name":  "桂发祥",
+                                           "code":  "002820",
+                                           "boards":  1,
+                                           "firstTime":  "10:41:48",
+                                           "lastTime":  "10:41:48",
+                                           "theme":  "食品饮料、零售",
+                                           "reason":  "食品饮料",
+                                           "sealAmount":  37790602
+                                       },
+                                       {
+                                           "name":  "宏达高科",
+                                           "code":  "002144",
+                                           "boards":  1,
+                                           "firstTime":  "11:02:33",
+                                           "lastTime":  "11:02:33",
+                                           "theme":  "机器人概念、汽车类",
+                                           "reason":  "机器人概念",
+                                           "sealAmount":  33314520
+                                       },
+                                       {
+                                           "name":  "中视传媒",
+                                           "code":  "600088",
+                                           "boards":  1,
+                                           "firstTime":  "11:24:01",
+                                           "lastTime":  "11:24:01",
+                                           "theme":  "AI应用、免税",
+                                           "reason":  "AI应用",
+                                           "sealAmount":  33951444
+                                       },
+                                       {
+                                           "name":  "城市传媒",
+                                           "code":  "600229",
+                                           "boards":  1,
+                                           "firstTime":  "13:01:33",
+                                           "lastTime":  "14:45:39",
+                                           "theme":  "AI应用、版权",
+                                           "reason":  "AI应用",
+                                           "sealAmount":  5960197
+                                       },
+                                       {
+                                           "name":  "龙版传媒",
+                                           "code":  "605577",
+                                           "boards":  1,
+                                           "firstTime":  "14:23:21",
+                                           "lastTime":  "14:24:00",
+                                           "theme":  "AI视频、AI应用",
+                                           "reason":  "AI视频",
+                                           "sealAmount":  66866149
+                                       }
+                                   ]
+                    },
+                    {
+                        "name":  "二板",
+                        "stocks":  [
+                                       {
+                                           "name":  "天圣制药",
+                                           "code":  "002872",
+                                           "boards":  2,
+                                           "firstTime":  "09:25:00",
+                                           "lastTime":  "09:25:00",
+                                           "theme":  "医药、ST摘帽",
+                                           "reason":  "ST摘帽",
+                                           "sealAmount":  90157930
+                                       },
+                                       {
+                                           "name":  "全筑股份",
+                                           "code":  "603030",
+                                           "boards":  2,
+                                           "firstTime":  "09:25:02",
+                                           "lastTime":  "14:11:41",
+                                           "theme":  "算力、地产链",
+                                           "reason":  "算力",
+                                           "sealAmount":  66334455
+                                       },
+                                       {
+                                           "name":  "利君股份",
+                                           "code":  "002651",
+                                           "boards":  2,
+                                           "firstTime":  "09:30:00",
+                                           "lastTime":  "14:02:54",
+                                           "theme":  "成飞概念、无人机",
+                                           "reason":  "成飞概念",
+                                           "sealAmount":  27826170
+                                       },
+                                       {
+                                           "name":  "金牛化工",
+                                           "code":  "600722",
+                                           "boards":  2,
+                                           "firstTime":  "13:36:26",
+                                           "lastTime":  "13:36:26",
+                                           "theme":  "甲醇、地方国企",
+                                           "reason":  "甲醇",
+                                           "sealAmount":  55949791
+                                       },
+                                       {
+                                           "name":  "百傲化学",
+                                           "code":  "603360",
+                                           "boards":  2,
+                                           "firstTime":  "14:50:16",
+                                           "lastTime":  "14:50:16",
+                                           "theme":  "半导体设备、光刻机",
+                                           "reason":  "半导体设备",
+                                           "sealAmount":  3010656
+                                       }
+                                   ]
+                    },
+                    {
+                        "name":  "三板",
+                        "stocks":  [
+                                       {
+                                           "name":  "汇洲智能",
+                                           "code":  "002122",
+                                           "boards":  3,
+                                           "firstTime":  "09:25:00",
+                                           "lastTime":  "09:25:00",
+                                           "theme":  "数据采集、ST摘帽",
+                                           "reason":  "ST摘帽",
+                                           "sealAmount":  70220159
+                                       },
+                                       {
+                                           "name":  "杭州解百",
+                                           "code":  "600814",
+                                           "boards":  3,
+                                           "firstTime":  "09:30:03",
+                                           "lastTime":  "09:30:03",
+                                           "theme":  "零售、生育概念",
+                                           "reason":  "零售",
+                                           "sealAmount":  245554612
+                                       },
+                                       {
+                                           "name":  "宁波东力",
+                                           "code":  "002164",
+                                           "boards":  3,
+                                           "firstTime":  "09:30:09",
+                                           "lastTime":  "13:36:45",
+                                           "theme":  "机器人概念、病毒防治",
+                                           "reason":  "机器人概念",
+                                           "sealAmount":  128958760
+                                       },
+                                       {
+                                           "name":  "铁流股份",
+                                           "code":  "603926",
+                                           "boards":  3,
+                                           "firstTime":  "09:35:44",
+                                           "lastTime":  "14:56:38",
+                                           "theme":  "机器人概念、杭州",
+                                           "reason":  "机器人概念",
+                                           "sealAmount":  2846448
+                                       },
+                                       {
+                                           "name":  "九阳股份",
+                                           "code":  "002242",
+                                           "boards":  3,
+                                           "firstTime":  "09:45:21",
+                                           "lastTime":  "14:45:15",
+                                           "theme":  "家电、平台经济",
+                                           "reason":  "家电",
+                                           "sealAmount":  274275506
+                                       },
+                                       {
+                                           "name":  "创源股份",
+                                           "code":  "300703",
+                                           "boards":  3,
+                                           "firstTime":  "10:15:03",
+                                           "lastTime":  "10:17:57",
+                                           "theme":  "文创产品、端侧AI",
+                                           "reason":  "文创产品",
+                                           "sealAmount":  67635995
+                                       }
+                                   ]
+                    },
+                    {
+                        "name":  "高度板",
+                        "stocks":  [
+                                       {
+                                           "name":  "金新农",
+                                           "code":  "002548",
+                                           "boards":  4,
+                                           "firstTime":  "09:25:00",
+                                           "lastTime":  "09:57:24",
+                                           "theme":  "猪肉、农业",
+                                           "reason":  "猪肉",
+                                           "sealAmount":  101571432
+                                       },
+                                       {
+                                           "name":  "克来机电",
+                                           "code":  "603960",
+                                           "boards":  4,
+                                           "firstTime":  "09:25:01",
+                                           "lastTime":  "09:25:01",
+                                           "theme":  "光模块、光通信",
+                                           "reason":  "光模块",
+                                           "sealAmount":  305550086
+                                       },
+                                       {
+                                           "name":  "中京电子",
+                                           "code":  "002579",
+                                           "boards":  5,
+                                           "firstTime":  "14:54:48",
+                                           "lastTime":  "14:54:48",
+                                           "theme":  "PCB、端侧AI",
+                                           "reason":  "PCB",
+                                           "sealAmount":  107285381
+                                       }
+                                   ]
+                    }
+                ],
+    "yesterdayHigh":  [
+                          {
+                              "name":  "中京电子",
+                              "code":  "002579",
+                              "yesterdayBoards":  4,
+                              "change":  10,
+                              "status":  "继续晋级",
+                              "statusClass":  "advance",
+                              "theme":  "PCB、端侧AI"
+                          }
+                      ]
+};
+const strategyData={
+    "summary":  "情绪偏弱 · 分歧升温 · 次日不追一致高开",
+    "turnover":  1.38,
+    "turnoverDiff":  -0.27,
+    "rise":  567,
+    "fall":  4588,
+    "limitUp":  51,
+    "broken":  30,
+    "bombRate":  37,
+    "mainLines":  [
+                      {
+                          "title":  "主线一｜医药板块相对强势",
+                          "text":  "主力净流入 -0.02亿。若次日指数与成交同步走强，可观察分歧回踩后的承接；孤立高开不追。",
+                          "tags":  [
+                                       "医药商业",
+                                       "中药",
+                                       "化学制药"
+                                   ]
+                      },
+                      {
+                          "title":  "主线二｜公用事业轮动观察",
+                          "text":  "主力净流入 -0.04亿。优先验证前排强度与基本面催化，后排跟涨不追。",
+                          "tags":  [
+                                       "医药商业",
+                                       "旅游及酒店",
+                                       "中药"
+                                   ]
+                      }
+                  ],
+    "signals":  [
+                    {
+                        "name":  "上涨/下跌",
+                        "value":  "567 / 4588",
+                        "signal":  "偏弱",
+                        "meaning":  "控制试错频率",
+                        "good":  false
+                    },
+                    {
+                        "name":  "两市成交",
+                        "value":  "1.38万亿（-0.27）",
+                        "signal":  "缩量",
+                        "meaning":  "轮动加快",
+                        "good":  false
+                    },
+                    {
+                        "name":  "涨停/炸板",
+                        "value":  "51 / 30",
+                        "signal":  "强分歧",
+                        "meaning":  "去弱留强",
+                        "good":  false
+                    },
+                    {
+                        "name":  "炸板率",
+                        "value":  "37.0%",
+                        "signal":  "谨慎",
+                        "meaning":  "不追一致高开",
+                        "good":  false
+                    },
+                    {
+                        "name":  "医药板块/公用事业",
+                        "value":  "-0.02亿 / -0.04亿",
+                        "signal":  "相对强势",
+                        "meaning":  "优先观察轮动主线",
+                        "good":  false
+                    },
+                    {
+                        "name":  "最弱资金方向",
+                        "value":  "科技板块 -309.80亿",
+                        "signal":  "风险",
+                        "meaning":  "等资金止流再看",
+                        "good":  false
+                    }
+                ],
+    "concepts":  [
+                     {
+                         "name":  "玻尿酸",
+                         "heat":  95.88
+                     },
+                     {
+                         "name":  "食品饮料",
+                         "heat":  94.75
+                     },
+                     {
+                         "name":  "日化用品",
+                         "heat":  94.36
+                     }
+                 ],
+    "playbook":  [
+                     "医药板块：指数与成交共振，回踩承接后再观察",
+                     "公用事业：只看前排与基本面验证，不做后排追涨",
+                     "热门概念：分歧转强才参与，冲高回落即放弃",
+                     "风控：明显缩量、炸板率升破40%或涨跌比反转，主动降仓"
+                 ],
+    "discipline":  "试错仓30%—50%；单一方向不超过15%；逻辑失效立即退出"
+};
+const historyData=[
+    {
+        "date":  "20261026",
+        "close":  3697.52,
+        "change":  0.19,
+        "turnover":  1.61,
+        "rise":  2082,
+        "fall":  2991,
+        "limitUp":  59,
+        "limitDown":  27
+    },
+    {
+        "date":  "20261027",
+        "close":  3648.3,
+        "change":  -1.33,
+        "turnover":  1.46,
+        "rise":  576,
+        "fall":  4601,
+        "limitUp":  42,
+        "limitDown":  23
+    },
+    {
+        "date":  "20261028",
+        "close":  3681.47,
+        "change":  0.91,
+        "turnover":  1.63,
+        "rise":  3872,
+        "fall":  1176,
+        "limitUp":  71,
+        "limitDown":  6
+    },
+    {
+        "date":  "20261029",
+        "close":  3651.43,
+        "change":  -0.82,
+        "turnover":  1.56,
+        "rise":  756,
+        "fall":  4400,
+        "limitUp":  39,
+        "limitDown":  42
+    },
+    {
+        "date":  "20261030",
+        "close":  3599.02,
+        "change":  -1.44,
+        "turnover":  1.67,
+        "rise":  853,
+        "fall":  4290,
+        "limitUp":  49,
+        "limitDown":  86
+    },
+    {
+        "date":  "20261102",
+        "close":  3638.03,
+        "change":  1.08,
+        "turnover":  1.78,
+        "rise":  4681,
+        "fall":  817,
+        "limitUp":  131,
+        "limitDown":  10
+    },
+    {
+        "date":  "20261103",
+        "close":  3608.1,
+        "change":  -0.82,
+        "turnover":  1.7,
+        "rise":  2108,
+        "fall":  3308,
+        "limitUp":  52,
+        "limitDown":  17
+    },
+    {
+        "date":  "20261104",
+        "close":  3686.17,
+        "change":  2.16,
+        "turnover":  2.04,
+        "rise":  4331,
+        "fall":  764,
+        "limitUp":  119,
+        "limitDown":  10
+    },
+    {
+        "date":  "20261105",
+        "close":  3689.91,
+        "change":  0.1,
+        "turnover":  2.12,
+        "rise":  4538,
+        "fall":  603,
+        "limitUp":  85,
+        "limitDown":  0
+    },
+    {
+        "date":  "20261106",
+        "close":  3649.18,
+        "change":  -1.1,
+        "turnover":  1.66,
+        "rise":  716,
+        "fall":  4431,
+        "limitUp":  33,
+        "limitDown":  15
+    },
+    {
+        "date":  "20261109",
+        "close":  3660.79,
+        "change":  0.32,
+        "turnover":  1.48,
+        "rise":  2043,
+        "fall":  3009,
+        "limitUp":  57,
+        "limitDown":  2
+    },
+    {
+        "date":  "20261110",
+        "close":  3663.72,
+        "change":  0.08,
+        "turnover":  1.5,
+        "rise":  4003,
+        "fall":  1073,
+        "limitUp":  95,
+        "limitDown":  0
+    },
+    {
+        "date":  "20261111",
+        "close":  3680.64,
+        "change":  0.46,
+        "turnover":  1.68,
+        "rise":  3381,
+        "fall":  1647,
+        "limitUp":  84,
+        "limitDown":  1
+    },
+    {
+        "date":  "20261112",
+        "close":  3655.83,
+        "change":  -0.67,
+        "turnover":  1.93,
+        "rise":  838,
+        "fall":  4320,
+        "limitUp":  37,
+        "limitDown":  5
+    },
+    {
+        "date":  "20261113",
+        "close":  3634.35,
+        "change":  -0.59,
+        "turnover":  1.66,
+        "rise":  744,
+        "fall":  4415,
+        "limitUp":  38,
+        "limitDown":  34
+    },
+    {
+        "date":  "20261116",
+        "close":  3602.57,
+        "change":  -0.87,
+        "turnover":  1.48,
+        "rise":  1136,
+        "fall":  4344,
+        "limitUp":  33,
+        "limitDown":  63
+    },
+    {
+        "date":  "20261117",
+        "close":  3584.58,
+        "change":  -0.5,
+        "turnover":  1.46,
+        "rise":  1216,
+        "fall":  3882,
+        "limitUp":  36,
+        "limitDown":  77
+    },
+    {
+        "date":  "20261118",
+        "close":  3587.83,
+        "change":  0.09,
+        "turnover":  1.37,
+        "rise":  1277,
+        "fall":  3823,
+        "limitUp":  42,
+        "limitDown":  44
+    },
+    {
+        "date":  "20261119",
+        "close":  3577.62,
+        "change":  -0.28,
+        "turnover":  1.31,
+        "rise":  638,
+        "fall":  4532,
+        "limitUp":  26,
+        "limitDown":  72
+    },
+    {
+        "date":  "20261120",
+        "close":  3533.79,
+        "change":  -1.23,
+        "turnover":  1.42,
+        "rise":  297,
+        "fall":  4897,
+        "limitUp":  30,
+        "limitDown":  61
+    },
+    {
+        "date":  "20261123",
+        "close":  3538.95,
+        "change":  0.15,
+        "turnover":  1.55,
+        "rise":  4306,
+        "fall":  780,
+        "limitUp":  150,
+        "limitDown":  7
+    },
+    {
+        "date":  "20261124",
+        "close":  3548.37,
+        "change":  0.27,
+        "turnover":  1.66,
+        "rise":  1952,
+        "fall":  3498,
+        "limitUp":  64,
+        "limitDown":  4
+    },
+    {
+        "date":  "20261125",
+        "close":  3476.47,
+        "change":  -2.03,
+        "turnover":  1.38,
+        "rise":  567,
+        "fall":  4588,
+        "limitUp":  57,
+        "limitDown":  44
+    }
+];
+const cls=v=>v>0?'up':v<0?'down':'flat';
+const signed=v=>(v>0?'+':'')+v.toFixed(2)+'%';
+document.getElementById('indexGrid').innerHTML=indices.map(x=>`<div class="index"><div class="index-name">${x.name}</div><div class="index-price ${cls(x.change)}">${x.price.toFixed(2)}</div><div class="chg ${cls(x.change)}">${signed(x.change)}</div><div class="index-status">${x.status}</div></div>`).join('');
+function renderIndustries(sort='change'){
+  const rows=[...industries].sort((a,b)=>b[sort]-a[sort]);
+  document.getElementById('industryBody').innerHTML=rows.map((x,i)=>`<tr><td class="rank-no ${i<3?'top':''}">${i+1}</td><td><span class="sector-name">${x.name}</span><span class="code">${x.code}</span></td><td><span class="type-badge ${x.type==='行业'?'industry':'concept'}">${x.type}</span></td><td class="${cls(x.change)} amount">${signed(x.change)}</td><td class="amount">${x.turnover.toFixed(2)}</td><td class="${cls(x.flow)} amount">${x.flow>0?'+':''}${x.flow.toFixed(2)}</td><td><span class="leader">${x.leader}</span><span class="leader-change ${cls(x.leaderChange)}">${signed(x.leaderChange)}</span><span class="code">${x.leaderCode}</span></td><td><span class="leader">${x.leader2}</span><span class="leader-change ${cls(x.leader2Change)}">${signed(x.leader2Change)}</span><span class="code">${x.leader2Code}</span></td></tr>`).join('');
+}
+document.querySelectorAll('.controls button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.controls button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderIndustries(b.dataset.sort)}));renderIndustries();
+const maxFlow=Math.max(...flows.map(x=>Math.abs(x.flow)));
+document.getElementById('flowGrid').innerHTML=flows.map(x=>`<div class="flow-card"><div class="flow-head"><span class="flow-name">${x.name}</span><span class="flow-value ${cls(x.flow)}">${x.flow>0?'+':''}${x.flow.toFixed(2)}</span></div><div class="bar-track"><div class="bar ${x.flow>=0?'pos':'neg'}" style="width:${Math.max(4,Math.abs(x.flow)/maxFlow*100)}%"></div></div><div class="flow-note">${x.flow>=0?'主力资金净流入':'主力资金净流出'}</div></div>`).join('');
+const formatMoney=v=>v>=1e8?(v/1e8).toFixed(2)+'亿':v>=1e4?(v/1e4).toFixed(0)+'万':v.toFixed(0);
+document.getElementById('limitFeatureGrid').innerHTML=limitBoardData.features.map(group=>`<article class="lb-feature"><h3>${group.title}</h3><div class="lb-feature-note">${group.note}</div>${group.stocks.length?group.stocks.map((x,i)=>`<div class="lb-pick"><div class="lb-pick-head"><span class="lb-pick-name">${i+1}. ${x.name} <small class="lb-code">${x.code}</small></span><span class="lb-pick-change ${cls(x.change)}">${signed(x.change)}</span></div><div class="lb-pick-meta">${x.meta}${x.theme?' · '+x.theme:''}</div></div>`).join(''):'<div class="lb-empty">当日暂无符合标的</div>'}</article>`).join('');
+document.getElementById('ladderSummary').innerHTML=limitBoardData.summary.map(x=>`<div class="lb-summary-card"><b>${x.count}</b><span>${x.name}</span><small>${x.rateLabel} ${x.rate}</small></div>`).join('');
+const visibleLadders=limitBoardData.ladders.filter(group=>group.name!=='一板'&&group.stocks.length);
+const renderLadder=group=>`<details class="lb-ladder" open><summary><span>${group.name}</span><span>${group.stocks.length}只</span></summary><div class="table-wrap"><table class="lb-stock-table"><thead><tr><th>股票</th><th>连板</th><th>首次封板/最后封板</th><th>题材</th><th>涨停原因</th><th>封单额</th></tr></thead><tbody>${group.stocks.map(x=>`<tr><td><span class="lb-stock-name">${x.name}</span><div class="lb-code">${x.code}</div></td><td>${x.boards}</td><td>${x.firstTime}<br>${x.lastTime}</td><td>${x.theme||'--'}</td><td class="lb-reason">${x.reason||'--'}</td><td>${formatMoney(x.sealAmount)}</td></tr>`).join('')}</tbody></table></div></details>`;
+const secondBoard=visibleLadders.find(group=>group.name==='二板');
+const upperBoards=visibleLadders.filter(group=>group.name!=='二板');
+const ladderColumns=(secondBoard?[[secondBoard],upperBoards]:[upperBoards]).filter(column=>column.length);
+const ladderGroupsEl=document.getElementById('ladderGroups');
+ladderGroupsEl.classList.toggle('single',ladderColumns.length===1);
+ladderGroupsEl.innerHTML=ladderColumns.map(column=>`<div class="lb-ladder-column">${column.map(renderLadder).join('')}</div>`).join('');
+document.getElementById('yesterdayHighBody').innerHTML=limitBoardData.yesterdayHigh.length?limitBoardData.yesterdayHigh.map(x=>`<tr><td><span class="lb-stock-name">${x.name}</span><div class="lb-code">${x.code}</div></td><td>${x.yesterdayBoards}板</td><td class="${cls(x.change)}">${signed(x.change)}</td><td><span class="lb-status ${x.statusClass}">${x.status}</span></td><td>${x.theme||'--'}</td></tr>`).join(''):'<tr><td colspan="5" class="lb-empty">昨日无高位连板票</td></tr>';
+document.getElementById('strategySummary').textContent=strategyData.summary;
+document.getElementById('strategyCards').innerHTML=strategyData.mainLines.map((x,i)=>`<article class="strategy-card ${i?'alt':''}"><h3>${x.title}</h3><p>${x.text}</p><div class="strategy-tags">${x.tags.map(t=>`<span class="strategy-tag">${t}</span>`).join('')}</div></article>`).join('');
+document.getElementById('signalBody').innerHTML=strategyData.signals.map(x=>`<tr><td>${x.name}</td><td>${x.value}</td><td><span class="signal-dot ${x.good?'good':''}"></span>${x.signal}</td><td>${x.meaning}</td></tr>`).join('');
+document.getElementById('heatRows').innerHTML=strategyData.concepts.map(x=>`<div class="heat-row"><b>${x.name}</b><div class="heat-track"><div class="heat-fill" style="width:${Math.max(5,Math.min(100,x.heat))}%"></div></div><span>${x.heat.toFixed(2)}</span></div>`).join('');
+document.getElementById('playbook').innerHTML=strategyData.playbook.map(x=>`<li>${x}</li>`).join('');
+document.getElementById('discipline').textContent=strategyData.discipline;
+function parseDay(ds){return new Date(Number(ds.slice(0,4)),Number(ds.slice(4,6))-1,Number(ds.slice(6,8)))}
+function dayKey(d){return String(d.getFullYear())+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')}
+const historyMap=new Map(historyData.map((x,i)=>[x.date,{...x,turnoverDiff:i?x.turnover-historyData[i-1].turnover:null}]));
+const lastTrade=parseDay(dashboardTradeDate);
+const calEnd=new Date(lastTrade);calEnd.setDate(calEnd.getDate()+(6-calEnd.getDay()));
+const calStart=new Date(calEnd);calStart.setDate(calStart.getDate()-34);
+const calendarCells=[];
+function painInfo(x){
+  const total=x.rise+x.fall,risePct=total?x.rise/total*100:0,fallPct=total?x.fall/total*100:0,limitUp=Number.isFinite(+x.limitUp)?+x.limitUp:null,limitDown=Number.isFinite(+x.limitDown)?+x.limitDown:null;
+  let score=fallPct;
+  if(limitDown!==null)score+=Math.min(35,limitDown/220*35);
+  if(limitDown>=220)return{cls:'extreme',label:'极端冰点',limitDown,score};
+  if(limitDown>=150||score>=105)return{cls:'ice',label:'冰点',limitDown,score};
+  if(x.fall>=3500||limitDown>=80||score>=88)return{cls:'loss',label:'杀跌扩散',limitDown,score};
+  if(x.change>0){
+    if(limitUp!==null&&limitUp>=100&&x.rise>=4000&&(limitDown===null||limitDown<20))return{cls:'climax',label:'高潮',limitDown,score};
+    if(x.change>=1.5&&x.rise>=4200&&Number.isFinite(+x.turnoverDiff)&&x.turnoverDiff>0)return{cls:'squeeze',label:'逼空',limitDown,score};
+    if(x.change>=1&&x.rise>=3500&&(limitUp===null||limitUp>=60))return{cls:'strong',label:'强修复',limitDown,score};
+    if(x.rise>=3500&&(limitDown===null||limitDown<30))return{cls:'broad',label:'普涨',limitDown,score};
+    if(x.rise>=2500&&(limitDown===null||limitDown<50))return{cls:'repair',label:'修复',limitDown,score};
+    return{cls:'weak',label:'弱修复',limitDown,score};
+  }
+  if(x.fall>=2500||fallPct>=58)return{cls:'wide',label:'普跌',limitDown,score};
+  return{cls:'mild',label:'温和调整',limitDown,score};
+}
+for(let d=new Date(calStart);d<=calEnd;d.setDate(d.getDate()+1)){
+  const key=dayKey(d),x=historyMap.get(key),isFuture=d>lastTrade;
+  if(x){const total=x.rise+x.fall,upPct=total?x.rise/total*100:50,diff=x.turnoverDiff,diffText=diff===null?'--':`${diff>0?'+':''}${diff.toFixed(2)}万亿`,pain=painInfo(x),ld=pain.limitDown,ldText=ld===null?'--':ld,ldPct=total&&ld!==null?Math.min(100,ld/total*100):0,nfPct=Math.max(0,100-upPct-ldPct);calendarCells.push(`<div class="cal-day ${x.change>0?'day-up':x.change<0?'day-down':'day-flat'} heat-${pain.cls}"><div><div class="cal-date">${key.slice(4,6)}/${key.slice(6,8)}${x.live?'<span class="live">盘中</span>':''}</div><div class="cal-index">上证 ${x.close.toFixed(2)}</div><div class="cal-change ${cls(x.change)}">${signed(x.change)}</div><div class="cal-turnover">${x.turnover.toFixed(2)}万亿</div><div class="cal-turnover-diff ${diff===null?'flat':cls(diff)}">${diffText}</div><span class="pain-pill ${pain.cls}">${pain.label}</span><div class="pain-stats"><span class="${ld===null?'missing':''}">跌停 ${ldText}</span></div></div><div><div class="cal-counts"><span>涨 ${x.rise}</span><span>跌 ${x.fall}</span></div><div class="breadth-bar" title="上涨${x.rise}家 / 下跌${x.fall}家"><span class="rise" style="width:${upPct.toFixed(1)}%"></span><span class="fall" style="width:${(100-upPct).toFixed(1)}%"></span></div><div class="pain-bar" title="跌停${ldText}家"><span class="limitdown" style="width:${ldPct.toFixed(1)}%"></span><span class="normalfall" style="width:${nfPct.toFixed(1)}%"></span></div></div></div>`)}
+  else{calendarCells.push(`<div class="cal-day ${isFuture?'future':'off'}"><div class="cal-date">${key.slice(4,6)}/${key.slice(6,8)}</div><div class="off-text">${isFuture?'待更新':'休市'}</div></div>`)}
+}
+document.getElementById('historyCalendar').innerHTML=calendarCells.join('');
+</script>
+</body>
+</html>
